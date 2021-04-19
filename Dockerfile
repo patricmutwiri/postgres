@@ -4,7 +4,7 @@ LABEL maintainer="patwiri@gmail.com"
 ENV TZ=Africa/Nairobi
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # install postgresql
-RUN apt update && apt install -y wget curl python-software-properties software-properties-common postgresql-12 postgresql-client-12 postgresql-contrib-12
+RUN apt update && apt install -y wget curl software-properties-common postgresql-12 postgresql-client-12 postgresql-contrib-12
 USER postgres
 # create docker user
 RUN    /etc/init.d/postgresql start &&\
