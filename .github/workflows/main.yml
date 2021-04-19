@@ -1,0 +1,38 @@
+name: PostgreSQL CI CD
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Deploy to docker hub
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        #       - uses: docker/build-push-action@v2.3.0
+      - name: docker login
+        uses: docker/login-action@v1
+        #        use git secrets from repo setting
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: docker build
+        run: |
+          docker build -t postgres .
+          docker tag postgres patricmutwiri/postgres
+      - name: docker push
+        run: |
+          docker push patricmutwiri/postgres
